@@ -17,7 +17,11 @@ func waitAndReportWorker() {
 
 
 func main() {
-	go waitAndReportWorker()
+
+	ch := make(chan string)
+
+
+	go waitAndReportWorker(ch)
 	for {
 		time.Sleep(250 * time.Millisecond)
 		fmt.Print("Nothing happening here ")
