@@ -19,12 +19,15 @@ func waitAndReportWorker(resultChan chan<- string) {
 func main() {
 
 	resultChan := make(chan string)
-
 	go waitAndReportWorker(resultChan)
+
 	for {
-		time.Sleep(250 * time.Millisecond)
-		fmt.Print("Nothing happening here ")
-		result := <-resultChan
-		fmt.Println(result)
+		select {
+		case result := <-resultChan:
+			fmt.Println(result)
+		default:
+			time.Sleep(250 * time.Millisecond)
+			fmt.Print("Nothing happening here ")
+		}
 	}
 }
