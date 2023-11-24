@@ -21,6 +21,8 @@ func main() {
 	resultChan := make(chan string)
 	go waitAndReportWorker(resultChan)
 
+	startTime := time.Now()
+
 	for {
 		select {
 		case result := <-resultChan:
@@ -29,5 +31,10 @@ func main() {
 			time.Sleep(250 * time.Millisecond)
 			fmt.Print("Nothing happening here ")
 		}
+		if time.Since(startTime).Seconds() >= 10 {
+			break
+		}
 	}
+
+	close(resultChan)
 }
