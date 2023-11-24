@@ -7,21 +7,21 @@ import (
 )
 
 
-func waitAndReportWorker() {
+func waitAndReportWorker(resultChan chan<- string) {
 	for {
 		sleepTime := time.Duration(rand.Intn(5)) * time.Second
 		time.Sleep(sleepTime)
-		fmt.Printf("\nWorker slept for %s\n", sleepTime)
+		resultChan <- fmt.Sprintf("\nWorker slept for %s\n", sleepTime)
 	}
 }
 
 
 func main() {
 
-	ch := make(chan string)
+	resultChan := make(chan string)
 
 
-	go waitAndReportWorker(ch)
+	go waitAndReportWorker(resultChan)
 	for {
 		time.Sleep(250 * time.Millisecond)
 		fmt.Print("Nothing happening here ")
