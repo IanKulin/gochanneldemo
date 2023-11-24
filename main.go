@@ -20,10 +20,11 @@ func main() {
 
 	resultChan := make(chan string)
 
-
 	go waitAndReportWorker(resultChan)
 	for {
 		time.Sleep(250 * time.Millisecond)
 		fmt.Print("Nothing happening here ")
+		result := <-resultChan
+		fmt.Println(result)
 	}
 }
